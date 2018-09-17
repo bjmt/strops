@@ -2,6 +2,15 @@
 
 Handle strings using common binary/unary operators.
 
+## Installation
+
+```r
+if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
+devtools::install_github("bjmt/strops")
+```
+
+## Usage
+
 ```r
 ## Add
 "A" + "B"
