@@ -9,8 +9,6 @@
 
 #-------------------------------------------------------------------------------
 
-old.plus <- `+`
-
 #' Paste two strings together.
 #'
 #' For the original man page ?`+` redirects to, see '?Arithmetic'.
@@ -34,11 +32,9 @@ old.plus <- `+`
 
 #' @rdname plus
 #' @export
-"+.default" <- function(e1, e2) old.plus(e1, e2)
+"+.default" <- function(e1, e2) base::`+`(e1, e2)
 
 #-------------------------------------------------------------------------------
-
-old.minus <- `-`
 
 #' Substract part of a string.
 #'
@@ -59,15 +55,13 @@ old.minus <- `-`
 
 #' @rdname minus
 #' @export
-"-.default" <- function(e1, e2) old.minus(e1, e2)
+"-.default" <- function(e1, e2) base::`-`(e1, e2)
 
 #' @rdname minus
 #' @export
 "-.character" <- function(e1, e2) gsub(e2, "", e1, fixed = TRUE)
 
 #-------------------------------------------------------------------------------
-
-old.div <- `/`
 
 #' Split string.
 #'
@@ -88,15 +82,13 @@ old.div <- `/`
 
 #' @rdname div
 #' @export
-"/.default" <- function(e1, e2) old.div(e1, e2)
+"/.default" <- function(e1, e2) base::`/`(e1, e2)
 
 #' @rdname div
 #' @export
 "/.character" <- function(e1, e2) do.call(c, strsplit(e1, e2))
 
 #-------------------------------------------------------------------------------
-
-old.mult <- `*`
 
 #' Replicate string.
 #'
@@ -117,15 +109,13 @@ old.mult <- `*`
 
 #' @rdname mult
 #' @export
-"*.default" <- function(e1, e2) old.mult(e1, e2)
+"*.default" <- function(e1, e2) base::`*`(e1, e2)
 
 #' @rdname mult
 #' @export
 "*.character" <- function(e1, e2) paste(rep(e1, e2), collapse = "")
 
 #-------------------------------------------------------------------------------
-
-old.pow <- `^`
 
 #' Replace specified characters with spaces.
 #'
@@ -146,15 +136,13 @@ old.pow <- `^`
 
 #' @rdname pow
 #' @export
-"^.default" <- function(e1, e2) old.pow(e1, e2)
+"^.default" <- function(e1, e2) base::`^`(e1, e2)
 
 #' @rdname pow
 #' @export
 "^.character" <- function(e1, e2) gsub(paste0("[^", e2, "]"), " ", e1)
 
 #-------------------------------------------------------------------------------
-
-old.not <- `!`
 
 #' Switch case.
 #'
@@ -182,11 +170,9 @@ old.not <- `!`
 
 #' @rdname not
 #' @export
-"!.default" <- function(x) old.not(x)
+"!.default" <- function(x) base::`!`(x)
 
 #-------------------------------------------------------------------------------
-
-old.colon <- `:`
 
 #' Fill in alphabet letters between two characters.
 #'
@@ -224,4 +210,4 @@ old.colon <- `:`
 
 #' @rdname colon
 #' @export
-":.default" <- function(e1, e2) old.colon(e1, e2)
+":.default" <- function(e1, e2) base::`:`(e1, e2)
