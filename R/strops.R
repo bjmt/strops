@@ -1,10 +1,12 @@
 # NOTE: methods for operators involving characters are sealed!!
-#       (which means these dispatches would probably (?) not be allowed by CRAN)
+#       which means these dispatches would probably (?) not be allowed by CRAN
 
 # to check for illegal dispatch use isSealedmethod, eg:
 #     isSealedMethod("+", c("character", "character"))
+# the following would fail:
+#     setMethod("+", signature(e1 = "character", e2 = "character"), ...)
 
-# dispatches involving S4 objects would not be illegal though; eg:
+# dispatches involving other objects would not be illegal though; eg:
 # "+.universalmotif" <- function(e1, e2) { e1@name <- e2; e1 }
 
 #-------------------------------------------------------------------------------
@@ -22,15 +24,15 @@
 #' "A" + "B"
 #' # [1] "AB"
 #'
-#' @rdname plus
+#' @rdname str-plus
 #' @export
 "+" <- function(e1, e2) UseMethod("+")
 
-#' @rdname plus
+#' @rdname str-plus
 #' @export
 "+.character" <- function(e1, e2) paste0(e1, e2)
 
-#' @rdname plus
+#' @rdname str-plus
 #' @export
 "+.default" <- function(e1, e2) base::`+`(e1, e2)
 
@@ -49,15 +51,15 @@
 #' "ABC" - "B"
 #' # [1] "AC"
 #'
-#' @rdname minus
+#' @rdname str-minus
 #' @export
 "-" <- function(e1, e2) UseMethod("-")
 
-#' @rdname minus
+#' @rdname str-minus
 #' @export
 "-.default" <- function(e1, e2) base::`-`(e1, e2)
 
-#' @rdname minus
+#' @rdname str-minus
 #' @export
 "-.character" <- function(e1, e2) gsub(e2, "", e1, fixed = TRUE)
 
@@ -76,15 +78,15 @@
 #' "ABC" / "B"
 #' # [1] "A" "C"
 #'
-#' @rdname div
+#' @rdname str-div
 #' @export
 "/" <- function(e1, e2) UseMethod("/")
 
-#' @rdname div
+#' @rdname str-div
 #' @export
 "/.default" <- function(e1, e2) base::`/`(e1, e2)
 
-#' @rdname div
+#' @rdname str-div
 #' @export
 "/.character" <- function(e1, e2) do.call(c, strsplit(e1, e2))
 
@@ -103,15 +105,15 @@
 #' "A" * 3
 #' # [1] "AAA"
 #'
-#' @rdname mult
+#' @rdname str-mult
 #' @export
 "*" <- function(e1, e2) UseMethod("*")
 
-#' @rdname mult
+#' @rdname str-mult
 #' @export
 "*.default" <- function(e1, e2) base::`*`(e1, e2)
 
-#' @rdname mult
+#' @rdname str-mult
 #' @export
 "*.character" <- function(e1, e2) paste(rep(e1, e2), collapse = "")
 
@@ -130,15 +132,15 @@
 #' "ABC" ^ "B"
 #' # [1] "A C"
 #'
-#' @rdname pow
+#' @rdname str-pow
 #' @export
 "^" <- function(e1, e2) UseMethod("^")
 
-#' @rdname pow
+#' @rdname str-pow
 #' @export
 "^.default" <- function(e1, e2) base::`^`(e1, e2)
 
-#' @rdname pow
+#' @rdname str-pow
 #' @export
 "^.character" <- function(e1, e2) gsub(paste0("[^", e2, "]"), " ", e1)
 
@@ -160,15 +162,15 @@
 #' !"aBc"
 #' # [1] "AbC"
 #'
-#' @rdname not
+#' @rdname str-not
 #' @export
 "!" <- function(x) UseMethod("!")
 
-#' @rdname not
+#' @rdname str-not
 #' @export
 "!.character" <- function(x) chartr("a-zA-Z", "A-Za-z", x)
 
-#' @rdname not
+#' @rdname str-not
 #' @export
 "!.default" <- function(x) base::`!`(x)
 
@@ -187,11 +189,11 @@
 #' "a":"c"
 #' # [1] "abc"
 #'
-#' @rdname colon
+#' @rdname str-colon
 #' @export
 ":" <- function(e1, e2) UseMethod(":")
 
-#' @rdname colon
+#' @rdname str-colon
 #' @export
 ":.character" <- function(e1, e2) {
   if (length(e1) != 1 && length(e2) != 1) stop("arguments must be length 1")
@@ -208,6 +210,6 @@
   } else stop("arguments must share same case")
 }
 
-#' @rdname colon
+#' @rdname str-colon
 #' @export
 ":.default" <- function(e1, e2) base::`:`(e1, e2)
