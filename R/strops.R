@@ -213,3 +213,97 @@
 #' @rdname str-colon
 #' @export
 ":.default" <- function(e1, e2) base::`:`(e1, e2)
+
+#-------------------------------------------------------------------------------
+
+#' Collapse a character vector.
+#'
+#' Note: this overrides the original definition for `~`.
+#' To get back the original behaviour, run \code{"~" <- base::`~`}.
+#'
+#' @param x Character vector to collapse.
+#'
+#' @return Collapse character vector.
+#'
+#' @examples
+#' ~c("A", "B", "C")
+#' # [1] "ABC"
+#' ~1:5
+#' # [1] "12345"
+#'
+#' @rdname str-tilde
+#' @export
+"~" <- function(x) paste(x, collapse = "")
+
+#-------------------------------------------------------------------------------
+
+#' Check string equality, per character.
+#'
+#' @param e1 First string.
+#' @param e2 Second string.
+#'
+#' @return Logical vector.
+#'
+#' @examples
+#' "ABCD" & "ABCE"
+#' # [1] TRUE TRUE TRUE FALSE
+#'
+#' @rdname str-and
+#' @export
+"&" <- function(e1, e2) UseMethod("&")
+
+#' @rdname str-and
+#' @export
+"&.default" <- function(e1, e2) base::`&`(e1, e2)
+
+#' @rdname str-and
+#' @export
+"&.character" <- function(e1, e2) {
+  if (length(e1) == 1 && length(e2) == 1) e1 / "" == e2 / ""
+  else base::`&`(e1, e2)
+}
+
+#-------------------------------------------------------------------------------
+
+#' Check string inequality, per character.
+#'
+#' @param e1 First string.
+#' @param e2 Second string.
+#'
+#' @return Logical vector.
+#'
+#' @examples
+#' "ABCD" | "ABCE"
+#' # [1] FALSE FALSE FALSE TRUE
+#'
+#' @rdname str-or
+#' @export
+"|" <- function(e1, e2) UseMethod("|")
+
+#' @rdname str-or
+#' @export
+"|.default" <- function(e1, e2) base::`|`(e1, e2)
+
+#' @rdname str-or
+#' @export
+"|.character" <- function(e1, e2) {
+  if (length(e1) == 1 && length(e2) == 1) e1 / "" != e2 / ""
+  else base::`|`(e1, e2)
+}
+
+#-------------------------------------------------------------------------------
+
+#' Subset a string.
+#'
+#' @param x Target string.
+#' @param y Indices to subset on.
+#'
+#' @return Subsetted string.
+#'
+#' @examples
+#' (~letters) %..% c(1:5, 10:15)
+#' # [1] "abcdejklmno"
+#'
+#' @rdname str-subset
+#' @export
+"%..%" <- function(x, y) ~substring(x, y, y)

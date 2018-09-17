@@ -39,4 +39,22 @@ devtools::install_github("bjmt/strops")
 ## Colon
 "A":"D"
 # [1] "ABCD"
+
+## Tilde
+~letters
+# [1] "abcdefghijklmnopqrstuvwxyz"
+~1:9
+# [1] "123456789"
+
+## And
+"ABc" & "ABC"
+# [1] TRUE TRUE FALSE
+
+## Or
+"ABc" | "ABC"
+# [1] FALSE FALSE TRUE
+
+## Subset
+"ABCDEFGH" %..% 3:5
+# [1] "CDE"
 ```
