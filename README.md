@@ -58,3 +58,19 @@ devtools::install_github("bjmt/strops")
 "ABCDEFGH" %..% 3:5
 # [1] "CDE"
 ```
+
+## Cautions
+
+  + `~`: this operator is completely overwritten; so its use in unquoted
+    formulas no longer works.
+  + `!`: be careful when using this with `%in%`. See the following example:
+```r
+"A" %in% "1"
+# [1] FALSE
+
+!"A" %in% "1"  # --> here `!` is being used as the traditional `not`
+# [1] TRUE
+
+(!"A") %in% "1"  # --> here `!` is being used to switch case
+# [1] FALSE
+```
