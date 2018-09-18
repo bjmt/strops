@@ -115,7 +115,7 @@
 
 #' @rdname str-mult
 #' @export
-"*.character" <- function(e1, e2) paste(rep(e1, e2), collapse = "")
+"*.character" <- function(e1, e2) ~rep(e1, e2)
 
 #-------------------------------------------------------------------------------
 
@@ -142,7 +142,7 @@
 
 #' @rdname str-pow
 #' @export
-"^.character" <- function(e1, e2) gsub(paste0("[^", e2, "]"), " ", e1)
+"^.character" <- function(e1, e2) gsub("[^" + e2 + "]", " ", e1)
 
 #-------------------------------------------------------------------------------
 

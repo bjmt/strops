@@ -59,11 +59,12 @@ devtools::install_github("bjmt/strops")
 # [1] "CDE"
 ```
 
-## Cautions
+## Caution
 
   + `~`: this operator is completely overwritten; so its use in unquoted
     formulas no longer works.
-  + `!`: be careful when using this with `%in%`. See the following example:
+  + `!`, `~`: be careful when using these with pipes (such as `%in%` and
+    `%..%`). See the following examples:
 ```r
 "A" %in% "1"
 # [1] FALSE
@@ -73,4 +74,9 @@ devtools::install_github("bjmt/strops")
 
 (!"A") %in% "1"  # --> here `!` is being used to switch case
 # [1] FALSE
+
+~!letters %..% 3  # --> `letters %..% 3` is evaluated first
+# [1] ""
+(~!letters) %..% 3  # --> `!letters` is evaluated first
+# [1] "C"
 ```
