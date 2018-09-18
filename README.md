@@ -77,6 +77,6 @@ devtools::install_github("bjmt/strops")
 
 ~!letters %..% 3  # --> `letters %..% 3` is evaluated first
 # [1] ""
-(~!letters) %..% 3  # --> `!letters` is evaluated first
+(~!letters) %..% 3  # --> `~!letters` is evaluated first
 # [1] "C"
 ```
