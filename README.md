@@ -81,6 +81,8 @@ Alternatively, just download and source the `R/strops.R` file.
 
 ## Caution
 
+  + Method dispatch on binary operators is based on the first argument,
+    meaning `1 + "A"` would fail (as opposed to `"A" + 1`).
   + `~`: this operator is completely overwritten; so its use in unquoted
     formulas no longer works.
   + `!`, `~`: be careful when using these with pipes (such as `%in%` and
