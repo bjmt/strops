@@ -23,6 +23,8 @@
 #' @examples
 #' "A" + "B"
 #' # [1] "AB"
+#' +"A"
+#' # [1] "A "
 #'
 #' @rdname str-plus
 #' @export
@@ -30,11 +32,17 @@
 
 #' @rdname str-plus
 #' @export
-"+.character" <- function(e1, e2) paste0(e1, e2)
+"+.character" <- function(e1, e2) {
+  if (!missing(e2)) paste0(e1, e2)
+  else paste0(e1, " ")
+}
 
 #' @rdname str-plus
 #' @export
-"+.default" <- function(e1, e2) base::`+`(e1, e2)
+"+.default" <- function(e1, e2) {
+  if (!missing(e2)) base::`+`(e1, e2)
+  else base::`+`(e1)
+}
 
 #-------------------------------------------------------------------------------
 
@@ -50,6 +58,10 @@
 #' @examples
 #' "ABC" - "B"
 #' # [1] "AC"
+#' -"ABC"
+#' # [1] "CBA"
+#' "ABC" - 1
+#' # [1] "AB"
 #'
 #' @rdname str-minus
 #' @export
@@ -57,11 +69,20 @@
 
 #' @rdname str-minus
 #' @export
-"-.default" <- function(e1, e2) base::`-`(e1, e2)
+"-.default" <- function(e1, e2) {
+  if (!missing(e2)) base::`-`(e1, e2)
+  else base::`-`(e1)
+}
 
 #' @rdname str-minus
 #' @export
-"-.character" <- function(e1, e2) gsub(e2, "", e1, fixed = TRUE)
+"-.character" <- function(e1, e2) {
+  if (is.numeric(e2)) substr(e1, 1, nchar(e1) - e2)
+  else if (is.character(e2)) {
+    if (!missing(e2)) gsub(e2, "", e1, fixed = TRUE)
+    else ~rev(e1 / "")
+  }
+}
 
 #-------------------------------------------------------------------------------
 
@@ -77,6 +98,8 @@
 #' @examples
 #' "ABC" / "B"
 #' # [1] "A" "C"
+#' "ABC" / 3
+#' # [1] "A" "B" "C"
 #'
 #' @rdname str-div
 #' @export
@@ -88,7 +111,16 @@
 
 #' @rdname str-div
 #' @export
-"/.character" <- function(e1, e2) do.call(c, strsplit(e1, e2))
+"/.character" <- function(e1, e2) {
+  if (is.character(e2)) do.call(c, strsplit(e1, e2))
+  else if (is.numeric(e2)) {
+    if (e2 == 1) return (e1)
+    if (e2 > nchar(e1)) stop("divisor is greater than string length")
+    i <- as.integer(seq(1, nchar(e1), nchar(e1) / e2))
+    i.2 <- c(i[-1] - 1, nchar(e1))
+    substring(e1, i, i.2)
+  }
+}  # think about changing how incomplete divisions work here...
 
 #-------------------------------------------------------------------------------
 
@@ -131,6 +163,10 @@
 #' @examples
 #' "ABC" ^ "B"
 #' # [1] "A C"
+#' "ABC" ^ 2
+#' # [1] "AB" "C"
+#' "ABC" ^ 1
+#' # [1] "A" "B" "C"
 #'
 #' @rdname str-pow
 #' @export
@@ -142,7 +178,16 @@
 
 #' @rdname str-pow
 #' @export
-"^.character" <- function(e1, e2) gsub("[^" + e2 + "]", " ", e1)
+"^.character" <- function(e1, e2) {
+  if (is.character(e2)) gsub("[^" + e2 + "]", " ", e1)
+  if (is.numeric(e2)) {
+    if (e2 == 1) return(e1 / "")
+    if (e2 > nchar(e1)) return(e1)
+    i <- seq(1, nchar(e1), e2)
+    i.2 <- c(i[-1] - 1, nchar(e1))
+    substring(e1, i, i.2)
+  }
+}
 
 #-------------------------------------------------------------------------------
 
