@@ -48,7 +48,7 @@
 
 #' Substract part of a string.
 #'
-#' For the original man page ?`-` redirects to, see '?Arithmetic'.
+#' For the original man page ?`-` redirects to, see ?Arithmetic.
 #'
 #' @param e1 Target string.
 #' @param e2 String to substract.
@@ -77,10 +77,12 @@
 #' @rdname str-minus
 #' @export
 "-.character" <- function(e1, e2) {
-  if (is.numeric(e2)) substr(e1, 1, nchar(e1) - e2)
-  else if (is.character(e2)) {
-    if (!missing(e2)) gsub(e2, "", e1, fixed = TRUE)
-    else ~rev(e1 / "")
+  if (missing(e2)) {
+    vapply(e1, function(e1) ~rev(e1 / ""), character(1))
+  } else if (is.numeric(e2)) {
+    substr(e1, 1, nchar(e1) - e2)
+  } else if (is.character(e2)) {
+    gsub(e2, "", e1, fixed = TRUE)
   }
 }
 
@@ -183,9 +185,9 @@
   if (is.numeric(e2)) {
     if (e2 == 1) return(e1 / "")
     if (e2 > nchar(e1)) return(e1)
-    i <- seq(1, nchar(e1), e2)
-    i.2 <- c(i[-1] - 1, nchar(e1))
-    substring(e1, i, i.2)
+    i.1 <- seq(1, nchar(e1), e2)
+    i.2 <- c(i.1[-1] - 1, nchar(e1))
+    substring(e1, i.1, i.2)
   }
 }
 
@@ -246,12 +248,12 @@
     e1.i <- which(e1 == letters)
     e2.i <- which(e2 == letters)
     i <- seq(e1.i, e2.i)
-    paste(letters[i], collapse = "")
+    paste0(letters[i], collapse = "")
   } else if (e1 %in% LETTERS && e2 %in% LETTERS) {
     e1.i <- which(e1 == LETTERS)
     e2.i <- which(e2 == LETTERS)
     i <- seq(e1.i, e2.i)
-    paste(LETTERS[i], collapse = "")
+    paste0(LETTERS[i], collapse = "")
   } else stop("arguments must share same case")
 }
 
@@ -278,7 +280,7 @@
 #'
 #' @rdname str-tilde
 #' @export
-"~" <- function(x) paste(x, collapse = "")
+"~" <- function(x) paste0(x, collapse = "")
 
 #-------------------------------------------------------------------------------
 

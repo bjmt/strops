@@ -6,8 +6,8 @@ Handle strings using common binary/unary operators.
 
 To install it as a package:
 ```r
-if (!requireNamespace("devtools", quietly = TRUE)) install.packages("devtools")
-devtools::install_github("bjmt/strops")
+if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes")
+remotes::install_github("bjmt/strops")
 ```
 Alternatively, just download and source the `R/strops.R` file.
 
