@@ -1,6 +1,6 @@
 Package: strops
 Title: Operators for handling strings
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: 'Benjamin Tremblay <b2tremblay@uwaterloo.ca> [aut, cre]'
 Description: Exports methods for common R operators which handle strings.
 Depends: R (>= 3.5.0)
